@@ -125,6 +125,15 @@ For a tighter single-provider segment:
 codexbar panel --provider codex
 ```
 
+### Cinnamon tray app (Linux)
+For a tray menu with per-provider Session/Weekly details (instead of single-line applet text), use:
+
+```bash
+Scripts/codexbar_cinnamon_tray.py --binary ~/.local/bin/codexbar --provider codex --source cli --interval 30
+```
+
+Full setup is documented in `docs/linux-cinnamon.md`.
+
 ### Sample output (text)
 ```
 == Codex 0.6.0 (codex-cli) ==

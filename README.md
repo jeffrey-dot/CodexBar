@@ -27,6 +27,10 @@ For Cinnamon panels/applets, use compact output via:
 ```bash
 codexbar panel --provider all --status
 ```
+For a native tray-style Linux UI (Cinnamon/GNOME), see `docs/linux-cinnamon.md`.
+Current Cinnamon flow uses `statusicon` backend:
+- left click: open/hide rounded Dashboard
+- right click: tray menu actions
 
 ### First run
 - Open Settings → Providers and enable what you use.

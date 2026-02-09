@@ -27,6 +27,8 @@ debug_*.swift
 .DS_Store
 .vscode/
 .codex/environments/
+__pycache__/
+*.pyc
 
 # Debug/analysis docs
 docs/*-analysis.md
