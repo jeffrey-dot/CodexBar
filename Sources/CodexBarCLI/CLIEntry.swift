@@ -37,6 +37,8 @@ enum CodexBarCLI {
             switch invocation.path {
             case ["usage"]:
                 await self.runUsage(invocation.parsedValues)
+            case ["panel"]:
+                await self.runPanel(invocation.parsedValues)
             case ["cost"]:
                 await self.runCost(invocation.parsedValues)
             case ["config", "validate"]:
@@ -59,6 +61,7 @@ enum CodexBarCLI {
 
     private static func commandDescriptors() -> [CommandDescriptor] {
         let usageSignature = CommandSignature.describe(UsageOptions())
+        let panelSignature = CommandSignature.describe(PanelOptions())
         let costSignature = CommandSignature.describe(CostOptions())
         let configSignature = CommandSignature.describe(ConfigOptions())
 
@@ -68,6 +71,11 @@ enum CodexBarCLI {
                 abstract: "Print usage as text or JSON",
                 discussion: nil,
                 signature: usageSignature),
+            CommandDescriptor(
+                name: "panel",
+                abstract: "Print compact single-line usage for status bars",
+                discussion: nil,
+                signature: panelSignature),
             CommandDescriptor(
                 name: "cost",
                 abstract: "Print local cost usage as text or JSON",

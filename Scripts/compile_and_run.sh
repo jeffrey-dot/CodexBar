@@ -16,6 +16,10 @@ RUN_TESTS=0
 DEBUG_LLDB=0
 RELEASE_ARCHES=""
 SIGNING_MODE="${CODEXBAR_SIGNING:-}"
+IS_DARWIN=0
+if [[ "$(uname -s)" == "Darwin" ]]; then
+  IS_DARWIN=1
+fi
 
 log()  { printf '%s\n' "$*"; }
 fail() { printf 'ERROR: %s\n' "$*" >&2; exit 1; }
@@ -164,6 +168,17 @@ for arg in "$@"; do
 done
 
 resolve_signing_mode
+if [[ "${IS_DARWIN}" != "1" ]]; then
+  log "==> Non-macOS detected; running Linux/CLI build flow"
+  if [[ "${RUN_TESTS}" == "1" ]]; then
+    run_step "swift test" swift test -q
+  else
+    run_step "swift build (CodexBarCLI)" swift build --product CodexBarCLI -q
+  fi
+  log "OK: CLI build flow finished."
+  exit 0
+fi
+
 if [[ "${SIGNING_MODE}" == "adhoc" ]]; then
   log "==> Signing: adhoc (set APP_IDENTITY or install a dev cert to avoid keychain prompts)"
 else
@@ -201,12 +216,12 @@ if [[ -n "${RELEASE_ARCHES}" ]]; then
   ARCHES_VALUE="${RELEASE_ARCHES}"
 fi
 if [[ "${DEBUG_LLDB}" == "1" ]]; then
-  run_step "package app" env CODEXBAR_ALLOW_LLDB=1 ARCHES="${ARCHES_VALUE}" "${ROOT_DIR}/scripts/package_app.sh" debug
+  run_step "package app" env CODEXBAR_ALLOW_LLDB=1 ARCHES="${ARCHES_VALUE}" "${ROOT_DIR}/Scripts/package_app.sh" debug
 else
   if [[ -n "${SIGNING_MODE}" ]]; then
-    run_step "package app" env CODEXBAR_SIGNING="${SIGNING_MODE}" ARCHES="${ARCHES_VALUE}" "${ROOT_DIR}/scripts/package_app.sh"
+    run_step "package app" env CODEXBAR_SIGNING="${SIGNING_MODE}" ARCHES="${ARCHES_VALUE}" "${ROOT_DIR}/Scripts/package_app.sh"
   else
-    run_step "package app" env ARCHES="${ARCHES_VALUE}" "${ROOT_DIR}/scripts/package_app.sh"
+    run_step "package app" env ARCHES="${ARCHES_VALUE}" "${ROOT_DIR}/Scripts/package_app.sh"
   fi
 fi
 

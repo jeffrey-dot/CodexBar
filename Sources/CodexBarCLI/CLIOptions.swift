@@ -76,6 +76,57 @@ struct UsageOptions: CommanderParsable {
     var augmentDebug: Bool = false
 }
 
+struct PanelOptions: CommanderParsable {
+    private static let sourceHelp: String = {
+        #if os(macOS)
+        "Data source: auto | web | cli | oauth | api (auto uses web then falls back on missing cookies)"
+        #else
+        "Data source: auto | web | cli | oauth | api (web/auto are macOS only)"
+        #endif
+    }()
+
+    @Flag(names: [.short("v"), .long("verbose")], help: "Enable verbose logging")
+    var verbose: Bool = false
+
+    @Flag(name: .long("json-output"), help: "Emit machine-readable logs")
+    var jsonOutput: Bool = false
+
+    @Option(name: .long("log-level"), help: "Set log level (trace|verbose|debug|info|warning|error|critical)")
+    var logLevel: String?
+
+    @Option(
+        name: .long("provider"),
+        help: ProviderHelp.optionHelp)
+    var provider: ProviderSelection?
+
+    @Option(name: .long("account"), help: "Token account label to use (from config.json)")
+    var account: String?
+
+    @Option(name: .long("account-index"), help: "Token account index (1-based)")
+    var accountIndex: Int?
+
+    @Flag(name: .long("all-accounts"), help: "Fetch all token accounts for the provider")
+    var allAccounts: Bool = false
+
+    @Flag(name: .long("status"), help: "Append provider status marker when degraded")
+    var status: Bool = false
+
+    @Flag(name: .long("show-provider"), help: "Always show provider labels, even for a single provider")
+    var showProvider: Bool = false
+
+    @Option(name: .long("separator"), help: "Separator between provider segments")
+    var separator: String?
+
+    @Flag(name: .long("web"), help: "Alias for --source web")
+    var web: Bool = false
+
+    @Option(name: .long("source"), help: Self.sourceHelp)
+    var source: String?
+
+    @Option(name: .long("web-timeout"), help: "Web fetch timeout (seconds) (Codex only; source=auto|web)")
+    var webTimeout: Double?
+}
+
 enum ProviderSelection: Sendable, ExpressibleFromArgument {
     case single(UsageProvider)
     case both

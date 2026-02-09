@@ -68,6 +68,10 @@ See `docs/configuration.md` for the schema.
   - `--format text|json`, `--pretty`, and `--json-only` are supported.
   - Warnings keep exit code 0; errors exit non-zero.
 - `codexbar config dump` prints the normalized config JSON.
+- `codexbar panel` prints one compact line designed for Linux panels/status bars.
+  - Example output: `Codex 72%/41% $112.4 | Claude 88%/63%`
+  - Useful flags: `--provider`, `--status`, `--show-provider`, `--separator " • "`, `--source`, `--web-timeout`.
+  - On Linux, `--source web|auto` remain unsupported (same as `usage`).
 
 ### Token accounts
 The CLI reads multi-account tokens from `~/.codexbar/config.json` (same file as the app).
@@ -104,6 +108,21 @@ codexbar --json-only --format json --pretty
 codexbar --provider gemini --source api --format json --pretty
 codexbar config validate --format json --pretty
 codexbar config dump --pretty
+codexbar panel --provider all --status
+codexbar panel --provider codex
+```
+
+### Cinnamon panel usage (Linux)
+Use a command-output applet and run:
+
+```bash
+codexbar panel --provider all --status
+```
+
+For a tighter single-provider segment:
+
+```bash
+codexbar panel --provider codex
 ```
 
 ### Sample output (text)

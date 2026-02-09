@@ -23,6 +23,10 @@ brew install steipete/tap/codexbar
 ```
 Or download `CodexBarCLI-v<tag>-linux-<arch>.tar.gz` from GitHub Releases.
 Linux support via Omarchy: community Waybar module and TUI, driven by the `codexbar` executable.
+For Cinnamon panels/applets, use compact output via:
+```bash
+codexbar panel --provider all --status
+```
 
 ### First run
 - Open Settings → Providers and enable what you use.

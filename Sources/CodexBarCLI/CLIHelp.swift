@@ -69,6 +69,29 @@ extension CodexBarCLI {
         """
     }
 
+    static func panelHelp(version: String) -> String {
+        """
+        CodexBar \(version)
+
+        Usage:
+          codexbar panel [--json-output] [--log-level <trace|verbose|debug|info|warning|error|critical>] [-v|--verbose]
+                         [--provider \(ProviderHelp.list)]
+                         [--account <label>] [--account-index <index>] [--all-accounts]
+                         [--status] [--show-provider] [--separator <text>]
+                         [--source <auto|web|cli|oauth|api>] [--web-timeout <seconds>]
+
+        Description:
+          Print compact single-line usage output for Linux bars/panels (including Cinnamon applets).
+          Uses the same provider fetch pipeline as `usage`, but renders each provider as a terse segment.
+
+        Examples:
+          codexbar panel
+          codexbar panel --provider codex
+          codexbar panel --provider all --status
+          codexbar panel --provider all --separator " • "
+        """
+    }
+
     static func configHelp(version: String) -> String {
         """
         CodexBar \(version)
@@ -109,6 +132,11 @@ extension CodexBarCLI {
                   [--account <label>] [--account-index <index>] [--all-accounts]
                   [--no-credits] [--no-color] [--pretty] [--status] [--source <auto|web|cli|oauth|api>]
                   [--web-timeout <seconds>] [--web-debug-dump-html] [--antigravity-plan-debug] [--augment-debug]
+          codexbar panel [--json-output] [--log-level <trace|verbose|debug|info|warning|error|critical>] [-v|--verbose]
+                        [--provider \(ProviderHelp.list)]
+                        [--account <label>] [--account-index <index>] [--all-accounts]
+                        [--status] [--show-provider] [--separator <text>]
+                        [--source <auto|web|cli|oauth|api>] [--web-timeout <seconds>]
           codexbar cost [--format text|json]
                        [--json]
                        [--json-only]
@@ -133,6 +161,7 @@ extension CodexBarCLI {
           codexbar
           codexbar --format json --provider all --pretty
           codexbar --provider all --json
+          codexbar panel --provider all --status
           codexbar --provider gemini
           codexbar cost --provider claude --format json --pretty
           codexbar config validate --format json --pretty

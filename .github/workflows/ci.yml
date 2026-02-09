@@ -38,6 +38,20 @@ jobs:
       - name: Swift Test
         run: swift test --no-parallel
 
+      - name: Smoke test CodexBarCLI panel (macOS)
+        shell: bash
+        run: |
+          set -euo pipefail
+          BIN_DIR="$(swift build --product CodexBarCLI --show-bin-path)"
+          BIN="$BIN_DIR/CodexBarCLI"
+          "$BIN" panel --provider codex >/tmp/codexbar-panel-macos.txt 2>/tmp/codexbar-panel-macos.err || true
+          if [[ ! -s /tmp/codexbar-panel-macos.txt ]]; then
+            echo "Expected non-empty panel output on stdout"
+            echo "--- stderr ---"
+            cat /tmp/codexbar-panel-macos.err || true
+            exit 1
+          fi
+
   build-linux-cli:
     strategy:
       fail-fast: false
@@ -77,6 +91,13 @@ jobs:
           BIN="$BIN_DIR/CodexBarCLI"
           "$BIN" --help >/dev/null
           "$BIN" --version >/dev/null
+          "$BIN" panel --provider codex >/tmp/codexbar-panel-linux.txt 2>/tmp/codexbar-panel-linux.err || true
+          if [[ ! -s /tmp/codexbar-panel-linux.txt ]]; then
+            echo "Expected non-empty panel output on stdout"
+            echo "--- stderr ---"
+            cat /tmp/codexbar-panel-linux.err || true
+            exit 1
+          fi
           if "$BIN" usage --provider codex --web >/dev/null 2>&1; then
             echo "Expected --web to fail on Linux"
             exit 1
